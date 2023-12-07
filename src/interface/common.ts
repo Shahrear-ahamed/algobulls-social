@@ -38,15 +38,19 @@ export type IPost = {
   likes: ILike[];
   isLiked: boolean;
   isBookmarked: boolean;
-  comments: IComment[];
+  comments: string[];
   createdAt: string;
   updatedAt: string;
 };
 
 export type IComment = {
-  _id: string;
+  id: string;
   body: string;
-} | null;
+  postId: string;
+  userId: IAuthor;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type ILike = {
   _id: string;

@@ -8,6 +8,8 @@ import {
 } from "@ant-design/icons";
 import { IPost } from "../../interface";
 import instance from "../../utils/axios";
+import { useState } from "react";
+import ModalBox from "./Modal";
 
 const { Meta } = Card;
 
@@ -20,6 +22,8 @@ export default function SinglePost({
   post: IPost;
   loading: boolean;
 }) {
+  const [open, setOpen] = useState(false);
+
   const handleLike = async () => {
     const res = await instance.post(`/posts/${post.id}/like`, null, {
       headers: {
@@ -31,7 +35,7 @@ export default function SinglePost({
   };
 
   const handleComment = () => {
-    console.log(post.id);
+    setOpen(true);
   };
 
   const handleBookmark = async () => {
@@ -45,34 +49,39 @@ export default function SinglePost({
   };
 
   return (
-    <Card
-      style={{ marginTop: 16 }}
-      actions={[
-        <div onClick={handleLike}>
-          {post.isLiked ? (
-            <LikeFilled key="react" />
-          ) : (
-            <LikeOutlined key="react" />
-          )}
-        </div>,
-        <CommentOutlined onClick={handleComment} key="comment" />,
-        <div onClick={handleBookmark}>
-          {post.isBookmarked ? (
-            <BookFilled key="bookmark" />
-          ) : (
-            <BookOutlined key="bookmark" />
-          )}
-        </div>,
-      ]}>
-      <Skeleton loading={loading} avatar active>
-        <Meta
-          avatar={
-            <Avatar src={post.author?.avatar ? post.author?.avatar : userImg} />
-          }
-          title={post.author?.name ? post.author?.name : "User"}
-          description={post.body}
-        />
-      </Skeleton>
-    </Card>
+    <>
+      <Card
+        style={{ marginTop: 16 }}
+        actions={[
+          <div onClick={handleLike}>
+            {post.isLiked ? (
+              <LikeFilled key="react" />
+            ) : (
+              <LikeOutlined key="react" />
+            )}
+          </div>,
+          <CommentOutlined onClick={handleComment} key="comment" />,
+          <div onClick={handleBookmark}>
+            {post.isBookmarked ? (
+              <BookFilled key="bookmark" />
+            ) : (
+              <BookOutlined key="bookmark" />
+            )}
+          </div>,
+        ]}>
+        <Skeleton loading={loading} avatar active>
+          <Meta
+            avatar={
+              <Avatar
+                src={post.author?.avatar ? post.author?.avatar : userImg}
+              />
+            }
+            title={post.author?.name ? post.author?.name : "User"}
+            description={post.body}
+          />
+        </Skeleton>
+      </Card>
+      <ModalBox id={post.id} open={open} setOpen={setOpen} />
+    </>
   );
 }

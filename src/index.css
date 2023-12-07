@@ -11,10 +11,6 @@ main {
   padding-inline: 20px !important;
 }
 
-.main {
-  margin: 20px 0;
-}
-
 .layout-footer > div {
   margin-block-start: 24px;
 }

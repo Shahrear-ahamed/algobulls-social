@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import ProLayout, { DefaultFooter } from "@ant-design/pro-layout";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   HomeOutlined,
   HeartOutlined,
@@ -11,6 +11,8 @@ import {
   LinkedinOutlined,
 } from "@ant-design/icons";
 import logo from "./assets/logo.svg";
+import { Button } from "antd";
+import { removeToken } from "./utils/token";
 
 const menuData = [
   {
@@ -49,6 +51,12 @@ const menuItemRender = (item: any, dom: any) => (
 
 export default function Layout({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const logout = () => {
+    removeToken();
+    navigate("/sign-in");
+  };
 
   return (
     <ProLayout
@@ -56,6 +64,11 @@ export default function Layout({ children }: { children: ReactNode }) {
       logo={logo}
       menuDataRender={menuDataRender}
       menuItemRender={menuItemRender}
+      menuFooterRender={() => (
+        <Button type="primary" danger onClick={() => logout()}>
+          Log Out
+        </Button>
+      )}
       location={location}>
       <section className="main">{children}</section>
       <DefaultFooter

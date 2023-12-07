@@ -1,9 +1,10 @@
+import HomeView from "../components/view/HomeView";
+
 export default function Home() {
   return (
     <>
-      <section>
-        <h1>Home</h1>
-      </section>
+      <h1>Home</h1>
+      <HomeView />
     </>
   );
 }

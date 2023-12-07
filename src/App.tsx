@@ -5,11 +5,31 @@ import SignUp from "./page/signUp";
 import PreventRoute from "./Prevent";
 import PrivateRoute from "./Private";
 import Home from "./page/home";
+import Like from "./page/like";
+import Bookmark from "./page/bookmark";
+import Post from "./page/post";
+import Profile from "./page/profile";
 
 const routes = [
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/likes",
+    element: <Like />,
+  },
+  {
+    path: "/bookmarks",
+    element: <Bookmark />,
+  },
+  {
+    path: "/posts",
+    element: <Post />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "/sign-in",
@@ -21,7 +41,7 @@ const routes = [
   },
 ];
 
-const privateRoutes = ["/", "/dashboard"];
+const privateRoutes = ["/", "/likes", "/bookmarks", "/posts", "/profile"];
 const publicNotAuthRoutes = ["/sign-in", "/sign-up"];
 
 function App() {

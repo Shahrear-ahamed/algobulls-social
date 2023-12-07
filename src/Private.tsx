@@ -3,11 +3,9 @@ import { Navigate, useLocation } from "react-router-dom";
 import Loading from "./components/ui/Loading";
 import { decodedAuthToken } from "./utils/token";
 import Layout from "./Layout";
+import { IDecodeUser } from "./interface";
 
-interface IDecodeUser {
-  email: string;
-  id: string;
-}
+
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const location = useLocation();

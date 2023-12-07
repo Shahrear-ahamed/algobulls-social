@@ -3,22 +3,34 @@ import loginImage from "../assets/login-image.jpg";
 import { SubmitHandler } from "react-hook-form";
 import Form from "../components/Form/Form";
 import FormInput from "../components/Form/FormInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import instance from "../utils/axios";
+import toast from "react-hot-toast/headless";
+import { setToken } from "../utils/token";
 
 type FormValues = {
-  id: string;
+  email: string;
   password: string;
   confirmPassword: string;
 };
 
 const SignUp = () => {
-  const onSubmit: SubmitHandler<FormValues> = (payload) => {
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<FormValues> = async (payload) => {
     try {
-      console.log(payload);
-      if (payload.password !== payload["confirmPassword"])
-        throw new Error("Password and Confirm Password is not same");
-    } catch (err) {
-      console.log(err);
+      const result = await instance.post("/auth/sign-up", payload);
+
+      if (result.data.statusCode !== 201) {
+        return toast.error(result.data.data.message);
+      }
+
+      navigate("/sign-in");
+      setToken(result.data.data.token);
+      toast.success("Login Successful");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message);
     }
   };
   return (
@@ -41,7 +53,7 @@ const SignUp = () => {
         <div>
           <Form submitHandler={onSubmit}>
             <div>
-              <FormInput name="id" type="text" size="large" label="Email" />
+              <FormInput name="email" type="text" size="large" label="Email" />
             </div>
             <div
               style={{

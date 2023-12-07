@@ -1,21 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Col, Row } from "antd";
 import loginImage from "../assets/login-image.jpg";
 import { SubmitHandler } from "react-hook-form";
 import Form from "../components/Form/Form";
 import FormInput from "../components/Form/FormInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import instance from "../utils/axios";
+import toast from "react-hot-toast";
+import { setToken } from "../utils/token";
 
 type FormValues = {
-  id: string;
+  email: string;
   password: string;
 };
 
 const SignIn = () => {
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      console.log(data);
-    } catch (err) {
-      console.log(err);
+      const result = await instance.post("/auth/sign-in", data);
+
+      if (result.data.statusCode !== 200) {
+        return toast.error("Login Failed");
+      }
+
+      navigate("/");
+      setToken(result?.data?.data?.accessToken);
+      toast.success("Login Successful");
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message);
     }
   };
   return (
@@ -38,7 +52,7 @@ const SignIn = () => {
         <div>
           <Form submitHandler={onSubmit}>
             <div>
-              <FormInput name="id" type="text" size="large" label="Email" />
+              <FormInput name="email" type="text" size="large" label="Email" />
             </div>
             <div
               style={{

@@ -1,4 +1,10 @@
+import MyPostView from "../components/view/MyPostView";
+
 export default function Post() {
-    return <div>Post</div>;
-  }
-  
+  return (
+    <>
+      <h1>Post</h1>
+      <MyPostView />
+    </>
+  );
+}

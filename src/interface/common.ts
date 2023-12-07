@@ -36,6 +36,8 @@ export type IPost = {
   id: string;
   body: string;
   likes: ILike[];
+  isLiked: boolean;
+  isBookmarked: boolean;
   comments: IComment[];
   createdAt: string;
   updatedAt: string;

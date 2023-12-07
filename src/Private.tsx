@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import Loading from "./components/ui/Loading";
 import { decodedAuthToken } from "./utils/token";
+import Layout from "./Layout";
 
 interface IDecodeUser {
   email: string;
@@ -36,7 +37,7 @@ const PrivateRoute = ({ children }: { children: ReactNode }) => {
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
   }
 
-  return <>{children}</>;
+  return <Layout>{children}</Layout>;
 };
 
 export default PrivateRoute;
